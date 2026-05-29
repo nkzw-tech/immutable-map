@@ -1,12 +1,12 @@
 import { IndexedCollection, KeyedCollection } from '../Collection';
 import { Seq } from '../Seq';
-import { isImmutable } from '../predicates/isImmutable';
-import { isIndexed } from '../predicates/isIndexed';
-import { isKeyed } from '../predicates/isKeyed';
-import hasOwnProperty from '../utils/hasOwnProperty';
-import isDataStructure from '../utils/isDataStructure';
-import { isProtoKey } from '../utils/protoInjection';
-import shallowCopy from '../utils/shallowCopy';
+import { isImmutable } from '../predicates/isImmutable.ts';
+import { isIndexed } from '../predicates/isIndexed.ts';
+import { isKeyed } from '../predicates/isKeyed.ts';
+import hasOwnProperty from '../utils/hasOwnProperty.ts';
+import isDataStructure from '../utils/isDataStructure.ts';
+import { isProtoKey } from '../utils/protoInjection.ts';
+import shallowCopy from '../utils/shallowCopy.ts';
 
 export function merge(collection, ...sources) {
   return mergeWithSources(collection, sources);

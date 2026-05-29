@@ -3,6 +3,10 @@ const pkg = require('../package.json');
 
 module.exports = (request, options) => {
   if (request === 'immutable') {
+    if (process.env.IMMUTABLE_TEST_DIST) {
+      return path.resolve(options.rootDir, 'dist/immutable.js');
+    }
+
     if (process.env.CI) {
       // In CI environment, test the real built file to be sure that the build is not broken
       return path.resolve(options.rootDir, pkg.main);

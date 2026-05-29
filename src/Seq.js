@@ -8,18 +8,18 @@ import {
   isKeysIterable,
   iteratorDone,
   iteratorValue,
-} from './Iterator';
-import { wrapIndex } from './TrieUtils';
-import { isAssociative } from './predicates/isAssociative';
-import { isCollection } from './predicates/isCollection';
-import { isImmutable } from './predicates/isImmutable';
-import { isKeyed } from './predicates/isKeyed';
-import { IS_ORDERED_SYMBOL } from './predicates/isOrdered';
-import { isRecord } from './predicates/isRecord';
-import { IS_SEQ_SYMBOL, isSeq } from './predicates/isSeq';
+} from './Iterator.ts';
+import { wrapIndex } from './TrieUtils.ts';
+import { isAssociative } from './predicates/isAssociative.ts';
+import { isCollection } from './predicates/isCollection.ts';
+import { isImmutable } from './predicates/isImmutable.ts';
+import { isKeyed } from './predicates/isKeyed.ts';
+import { IS_ORDERED_SYMBOL } from './predicates/isOrdered.ts';
+import { isRecord } from './predicates/isRecord.ts';
+import { IS_SEQ_SYMBOL, isSeq } from './predicates/isSeq.ts';
 
-import hasOwnProperty from './utils/hasOwnProperty';
-import isArrayLike from './utils/isArrayLike';
+import hasOwnProperty from './utils/hasOwnProperty.ts';
+import isArrayLike from './utils/isArrayLike.ts';
 
 export class Seq extends Collection {
   constructor(value) {

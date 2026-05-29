@@ -1,5 +1,10 @@
 import { IndexedCollection } from './Collection';
-import { Iterator, hasIterator, iteratorDone, iteratorValue } from './Iterator';
+import {
+  Iterator,
+  hasIterator,
+  iteratorDone,
+  iteratorValue,
+} from './Iterator.ts';
 import {
   DELETE,
   MASK,
@@ -12,7 +17,7 @@ import {
   resolveEnd,
   wholeSlice,
   wrapIndex,
-} from './TrieUtils';
+} from './TrieUtils.ts';
 import { asImmutable } from './methods/asImmutable';
 import { asMutable } from './methods/asMutable';
 import { deleteIn } from './methods/deleteIn';
@@ -23,8 +28,8 @@ import { update } from './methods/update';
 import { updateIn } from './methods/updateIn';
 import { wasAltered } from './methods/wasAltered';
 import { withMutations } from './methods/withMutations';
-import { IS_LIST_SYMBOL, isList } from './predicates/isList';
-import assertNotInfinite from './utils/assertNotInfinite';
+import { IS_LIST_SYMBOL, isList } from './predicates/isList.ts';
+import assertNotInfinite from './utils/assertNotInfinite.ts';
 
 export class List extends IndexedCollection {
   // @pragma Construction

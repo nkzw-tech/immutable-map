@@ -12,9 +12,8 @@ import {
   getIterator,
   iteratorDone,
   iteratorValue,
-} from './Iterator';
+} from './Iterator.ts';
 import { Map } from './Map';
-import { OrderedMap } from './OrderedMap';
 import {
   ArraySeq,
   IndexedSeq,
@@ -31,12 +30,12 @@ import {
   resolveEnd,
   wholeSlice,
   wrapIndex,
-} from './TrieUtils';
-import { isCollection } from './predicates/isCollection';
-import { IS_INDEXED_SYMBOL, isIndexed } from './predicates/isIndexed';
-import { IS_KEYED_SYMBOL, isKeyed } from './predicates/isKeyed';
-import { IS_ORDERED_SYMBOL, isOrdered } from './predicates/isOrdered';
-import { isSeq } from './predicates/isSeq';
+} from './TrieUtils.ts';
+import { isCollection } from './predicates/isCollection.ts';
+import { IS_INDEXED_SYMBOL, isIndexed } from './predicates/isIndexed.ts';
+import { IS_KEYED_SYMBOL, isKeyed } from './predicates/isKeyed.ts';
+import { IS_ORDERED_SYMBOL } from './predicates/isOrdered.ts';
+import { isSeq } from './predicates/isSeq.ts';
 
 export class ToKeyedSequence extends KeyedSeq {
   constructor(indexed, useKeys) {
@@ -383,7 +382,7 @@ export function countByFactory(collection, grouper, context) {
 
 export function groupByFactory(collection, grouper, context) {
   const isKeyedIter = isKeyed(collection);
-  const groups = (isOrdered(collection) ? OrderedMap() : Map()).asMutable();
+  const groups = Map().asMutable();
   collection.__iterate((v, k) => {
     groups.update(
       grouper.call(context, v, k, collection),

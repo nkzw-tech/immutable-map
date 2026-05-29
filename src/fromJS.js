@@ -1,10 +1,10 @@
-import { hasIterator } from './Iterator';
+import { hasIterator } from './Iterator.ts';
 import { Seq } from './Seq';
-import { isImmutable } from './predicates/isImmutable';
-import { isIndexed } from './predicates/isIndexed';
-import { isKeyed } from './predicates/isKeyed';
-import isArrayLike from './utils/isArrayLike';
-import isPlainObj from './utils/isPlainObj';
+import { isImmutable } from './predicates/isImmutable.ts';
+import { isIndexed } from './predicates/isIndexed.ts';
+import { isKeyed } from './predicates/isKeyed.ts';
+import isArrayLike from './utils/isArrayLike.ts';
+import isPlainObj from './utils/isPlainObj.ts';
 
 export function fromJS(value, converter) {
   return fromJSWith(

@@ -57,6 +57,10 @@ function transpileJavaScript(src, path) {
 
 module.exports = {
   process(src, path) {
+    if (path.includes('/dist/')) {
+      return { code: src };
+    }
+
     if (path.endsWith('.ts') || path.endsWith('.tsx')) {
       return { code: transpileTypeScript(src, path) };
     }

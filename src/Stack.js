@@ -1,13 +1,18 @@
 import { IndexedCollection } from './Collection';
-import { Iterator, iteratorDone, iteratorValue } from './Iterator';
+import { Iterator, iteratorDone, iteratorValue } from './Iterator.ts';
 import { ArraySeq } from './Seq';
-import { resolveBegin, resolveEnd, wholeSlice, wrapIndex } from './TrieUtils';
+import {
+  resolveBegin,
+  resolveEnd,
+  wholeSlice,
+  wrapIndex,
+} from './TrieUtils.ts';
 import { asImmutable } from './methods/asImmutable';
 import { asMutable } from './methods/asMutable';
 import { wasAltered } from './methods/wasAltered';
 import { withMutations } from './methods/withMutations';
-import { IS_STACK_SYMBOL, isStack } from './predicates/isStack';
-import assertNotInfinite from './utils/assertNotInfinite';
+import { IS_STACK_SYMBOL, isStack } from './predicates/isStack.ts';
+import assertNotInfinite from './utils/assertNotInfinite.ts';
 
 export class Stack extends IndexedCollection {
   // @pragma Construction

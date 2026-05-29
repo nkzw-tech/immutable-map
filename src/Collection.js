@@ -1,8 +1,8 @@
 import { IndexedSeq, KeyedSeq, Seq, SetSeq } from './Seq';
-import { isAssociative } from './predicates/isAssociative';
-import { isCollection } from './predicates/isCollection';
-import { isIndexed } from './predicates/isIndexed';
-import { isKeyed } from './predicates/isKeyed';
+import { isAssociative } from './predicates/isAssociative.ts';
+import { isCollection } from './predicates/isCollection.ts';
+import { isIndexed } from './predicates/isIndexed.ts';
+import { isKeyed } from './predicates/isKeyed.ts';
 
 export class Collection {
   constructor(value) {

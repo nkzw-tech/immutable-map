@@ -627,8 +627,10 @@ declare namespace Immutable {
    *
    * @ignore
    */
-  interface MapOf<R extends { [key in PropertyKey]: unknown }>
-    extends Map<keyof R, R[keyof R]> {
+  interface MapOf<R extends { [key in PropertyKey]: unknown }> extends Map<
+    keyof R,
+    R[keyof R]
+  > {
     /**
      * Returns the value associated with the provided key, or notSetValue if
      * the Collection does not contain this key.
@@ -714,7 +716,7 @@ declare namespace Immutable {
           never;
 
   /** @ignore */
-  type RetrievePath<R, P extends ReadonlyArray<unknown>> = P extends []
+  export type RetrievePath<R, P extends ReadonlyArray<unknown>> = P extends []
     ? P
     : RetrievePathReducer<R, Head<P>, Tail<P>>;
 
@@ -1124,40 +1126,19 @@ declare namespace Immutable {
     flip(): Map<V, K>;
 
     /**
-     * Returns an OrderedMap of the same type which includes the same entries,
-     * stably sorted by using a `comparator`.
-     *
-     * If a `comparator` is not provided, a default comparator uses `<` and `>`.
-     *
-     * `comparator(valueA, valueB)`:
-     *
-     *   * Returns `0` if the elements should not be swapped.
-     *   * Returns `-1` (or any negative number) if `valueA` comes before `valueB`
-     *   * Returns `1` (or any positive number) if `valueA` comes after `valueB`
-     *   * Alternatively, can return a value of the `PairSorting` enum type
-     *   * Is pure, i.e. it must always return the same value for the same pair
-     *     of values.
-     *
-     * Note: `sort()` Always returns a new instance, even if the original was
-     * already sorted.
-     *
-     * Note: This is always an eager operation.
+     * Returns a Map of the same type which includes the same entries, stably
+     * sorted by using a `comparator`.
      */
-    sort(comparator?: Comparator<V>): this & OrderedMap<K, V>;
+    sort(comparator?: Comparator<V>): this;
 
     /**
      * Like `sort`, but also accepts a `comparatorValueMapper` which allows for
-     * sorting by more sophisticated means:
-     *
-     * Note: `sortBy()` Always returns a new instance, even if the original was
-     * already sorted.
-     *
-     * Note: This is always an eager operation.
+     * sorting by more sophisticated means.
      */
     sortBy<C>(
       comparatorValueMapper: (value: V, key: K, iter: this) => C,
       comparator?: (valueA: C, valueB: C) => number
-    ): this & OrderedMap<K, V>;
+    ): this;
   }
 
   /**
@@ -3811,51 +3792,6 @@ declare namespace Immutable {
      */
     toMap(): Map<K, V>;
 
-    /**
-     * Converts this Collection to a Map, maintaining the order of iteration.
-     *
-     * Note: This is equivalent to `OrderedMap(this.toKeyedSeq())`, but
-     * provided for convenience and to allow for chained expressions.
-     */
-    toOrderedMap(): OrderedMap<K, V>;
-
-    /**
-     * Converts this Collection to a Set, discarding keys. Throws if values
-     * are not hashable.
-     *
-     * Note: This is equivalent to `Set(this)`, but provided to allow for
-     * chained expressions.
-     */
-    toSet(): Set<V>;
-
-    /**
-     * Converts this Collection to a Set, maintaining the order of iteration and
-     * discarding keys.
-     *
-     * Note: This is equivalent to `OrderedSet(this.valueSeq())`, but provided
-     * for convenience and to allow for chained expressions.
-     */
-    toOrderedSet(): OrderedSet<V>;
-
-    /**
-     * Converts this Collection to a List, discarding keys.
-     *
-     * This is similar to `List(collection)`, but provided to allow for chained
-     * expressions. However, when called on `Map` or other keyed collections,
-     * `collection.toList()` discards the keys and creates a list of only the
-     * values, whereas `List(collection)` creates a list of entry tuples.
-     */
-    toList(): List<V>;
-
-    /**
-     * Converts this Collection to a Stack, discarding keys. Throws if values
-     * are not hashable.
-     *
-     * Note: This is equivalent to `Stack(this)`, but provided to allow for
-     * chained expressions.
-     */
-    toStack(): Stack<V>;
-
     // Conversion to Seq
 
     /**
@@ -5101,26 +5037,34 @@ declare namespace Immutable {
   ): C;
 }
 
-/**
- * Defines the main export of the immutable module to be the Immutable namespace
- * This supports many common module import patterns:
- *
- *     const Immutable = require("immutable");
- *     const { List } = require("immutable");
- *     import Immutable from "immutable";
- *     import * as Immutable from "immutable";
- *     import { List } from "immutable";
- *
- */
-export = Immutable;
+declare const ImmutableMap: typeof Immutable.Map;
 
-/**
- * A global "Immutable" namespace used by UMD modules which allows the use of
- * the full Immutable API.
- *
- * If using Immutable as an imported module, prefer using:
- *
- *     import Immutable from 'immutable'
- *
- */
-export as namespace Immutable;
+export default ImmutableMap;
+export type Collection<K, V> = Immutable.Collection<K, V>;
+export namespace Collection {
+  export type Indexed<T> = Immutable.Collection.Indexed<T>;
+  export type Keyed<K, V> = Immutable.Collection.Keyed<K, V>;
+  export type Set<T> = Immutable.Collection.Set<T>;
+}
+export type List<T> = Immutable.List<T>;
+export type Map<K, V> = Immutable.Map<K, V>;
+export type OrderedMap<K, V> = Immutable.OrderedMap<K, V>;
+export type OrderedSet<T> = Immutable.OrderedSet<T>;
+export type Record<TProps extends object> = Immutable.Record<TProps>;
+export type Seq<K, V> = Immutable.Seq<K, V>;
+export namespace Seq {
+  export type Indexed<T> = Immutable.Seq.Indexed<T>;
+  export type Keyed<K, V> = Immutable.Seq.Keyed<K, V>;
+  export type Set<T> = Immutable.Seq.Set<T>;
+}
+export type Set<T> = Immutable.Set<T>;
+export type Stack<T> = Immutable.Stack<T>;
+export type KeyPath<K> = Immutable.KeyPath<K>;
+export type MapOf<R extends { [key in PropertyKey]: unknown }> =
+  Immutable.MapOf<R>;
+export type OrderedCollection<T> = Immutable.OrderedCollection<T>;
+export type RetrievePath<
+  R,
+  P extends ReadonlyArray<unknown>,
+> = Immutable.RetrievePath<R, P>;
+export type ValueObject = Immutable.ValueObject;

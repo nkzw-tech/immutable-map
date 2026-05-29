@@ -1,71 +1,46 @@
 {
-  "name": "immutable",
-  "version": "5.1.6",
-  "description": "Immutable Data Collections",
-  "license": "MIT",
-  "homepage": "https://immutable-js.com",
-  "author": {
-    "name": "Lee Byron",
-    "url": "https://github.com/leebyron"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/immutable-js/immutable-js.git"
-  },
-  "bugs": {
-    "url": "https://github.com/immutable-js/immutable-js/issues"
-  },
-  "main": "dist/immutable.js",
-  "module": "dist/immutable.es.js",
-  "types": "dist/immutable.d.ts",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
+  "name": "@nkzw/immutable-map",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Immutable Map",
   "keywords": [
-    "immutable",
-    "persistent",
-    "lazy",
+    "collection",
     "data",
     "datastructure",
     "functional",
-    "collection",
-    "stateless",
+    "immutable",
+    "iteration",
+    "lazy",
+    "persistent",
     "sequence",
-    "iteration"
+    "stateless"
   ],
-  "publishKeys": [
-    "name",
-    "version",
-    "description",
-    "license",
-    "homepage",
-    "author",
-    "repository",
-    "bugs",
-    "main",
-    "module",
-    "sideEffects",
-    "types",
-    "files",
-    "keywords"
-  ],
-  "engines": {
-    "npm": ">=7.0.0"
+  "homepage": "https://immutable-js.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cpojer/immutable-js.git"
+  },
+  "sideEffects": false,
+  "main": "immutable.js",
+  "module": "./immutable.js",
+  "types": "./immutable.d.ts",
+  "publishConfig": {
+    "directory": "publish"
   },
   "scripts": {
-    "test": "run-s format lint type-check build test:*",
-    "test:unit": "jest",
-    "test:types": "tstyche",
-    "format": "npm run lint:format -- --write",
+    "test": "run-s format lint type-check build-just-map smoke-test smoke-test:types test:unit",
+    "test:unit": "IMMUTABLE_TEST_DIST=1 jest __tests__/ImmutableMap.ts",
+    "test:types": "tsc --project type-definitions/tsconfig.json",
+    "format": "prettier --write \"{__tests__,src,type-definitions,website/src,perf,resources}/**/*{.js,.mjs,.ts,.tsx,.flow,.css}\"",
     "lint": "run-s lint:*",
     "lint:format": "prettier --check \"{__tests__,src,type-definitions,website/src,perf,resources}/**/*{.js,.mjs,.ts,.tsx,.flow,.css}\"",
     "lint:js": "eslint",
     "type-check": "run-s type-check:*",
-    "type-check:ts": "tsc --project tsconfig.src.json && tsc --project type-definitions/tsconfig.json && tsc --project __tests__/tsconfig.json",
+    "type-check:ts": "tsc --project tsconfig.src.json && tsc --project type-definitions/tsconfig.json",
     "type-check:flow": "flow check type-definitions/flow-tests --include-warnings",
     "build": "run-s build:*",
+    "build-just-map": "pnpm run build && rm -rf ./publish && mkdir -p ./publish && cp dist/immutable.es.js publish/ImmutableMap.js && cp dist/immutable.d.ts publish/ImmutableMap.d.ts && cp package-publish.json publish/package.json && cp README.md publish/ && cp LICENSE publish/",
     "build:clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true });\"",
     "build:dist": "rollup -c ./resources/rollup-config.mjs",
     "build:types": "cpy \"./type-definitions/immutable.*\" dist",
@@ -74,13 +49,11 @@
     "website:build": "cd website && rm -rf out && next build --turbopack && next-sitemap",
     "website:dev": "cd website && next dev --turbopack",
     "check-build-output": "node ./resources/check-build-output.mjs",
+    "smoke-test": "node ./resources/smoke-test.mjs",
+    "smoke-test:types": "node ./resources/smoke-test-types.mjs",
     "check-git-clean": "./resources/check-git-clean.sh",
     "benchmark": "node ./resources/benchmark.js",
-    "publish": "echo 'ONLY PUBLISH VIA CI'; exit 1;"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "trailingComma": "es5"
+    "ship": "pnpm run test && pnpm --dir publish publish --access public"
   },
   "devDependencies": {
     "@codemirror/commands": "^6.8.1",
@@ -144,6 +117,10 @@
     "typescript": "5.7",
     "typescript-eslint": "^8.33.0"
   },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
   "size-limit": [
     {
       "name": "all",
@@ -163,5 +140,21 @@
       "import": "{ Seq }",
       "limit": "20 kB"
     }
+  ],
+  "engines": {
+    "npm": ">=7.0.0"
+  },
+  "publishKeys": [
+    "name",
+    "version",
+    "description",
+    "license",
+    "homepage",
+    "repository",
+    "main",
+    "module",
+    "sideEffects",
+    "types",
+    "keywords"
   ]
 }

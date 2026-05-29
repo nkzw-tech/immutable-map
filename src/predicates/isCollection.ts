@@ -21,7 +21,7 @@ export function isCollection(
 ): maybeCollection is Collection<unknown, unknown> {
   return Boolean(
     maybeCollection &&
-      // @ts-expect-error: maybeCollection is typed as `{}`, need to change in 6.0 to `maybeCollection && typeof maybeCollection === 'object' && IS_COLLECTION_SYMBOL in maybeCollection`
-      maybeCollection[IS_COLLECTION_SYMBOL]
+    // @ts-expect-error: maybeCollection is typed as `{}`, need to change in 6.0 to `maybeCollection && typeof maybeCollection === 'object' && IS_COLLECTION_SYMBOL in maybeCollection`
+    maybeCollection[IS_COLLECTION_SYMBOL]
   );
 }

@@ -1,5 +1,5 @@
-import assertNotInfinite from '../utils/assertNotInfinite';
-import { isProtoKey } from '../utils/protoInjection';
+import assertNotInfinite from '../utils/assertNotInfinite.ts';
+import { isProtoKey } from '../utils/protoInjection.ts';
 
 export function toObject() {
   assertNotInfinite(this.size);

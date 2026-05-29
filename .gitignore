@@ -14,5 +14,6 @@ TODO
 /website/public/robots.txt
 /gh-pages
 /npm
+/publish
 /dist
 /coverage

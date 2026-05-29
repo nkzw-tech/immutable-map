@@ -13,7 +13,7 @@ export function isSeq(
   | Seq.Set<unknown> {
   return Boolean(
     maybeSeq &&
-      // @ts-expect-error: maybeSeq is typed as `{}`, need to change in 6.0 to `maybeSeq && typeof maybeSeq === 'object' && MAYBE_SEQ_SYMBOL in maybeSeq`
-      maybeSeq[IS_SEQ_SYMBOL]
+    // @ts-expect-error: maybeSeq is typed as `{}`, need to change in 6.0 to `maybeSeq && typeof maybeSeq === 'object' && MAYBE_SEQ_SYMBOL in maybeSeq`
+    maybeSeq[IS_SEQ_SYMBOL]
   );
 }

@@ -14,7 +14,9 @@ export default tseslintConfig(
   {
     ignores: [
       'npm/',
+      'publish/',
       'dist/',
+      '__tests__/MultiRequire.js',
       'type-definitions/flow-tests',
       'website/out/',
       'website/.next/',

@@ -2,13 +2,13 @@ import { Collection, KeyedCollection, SetCollection } from './Collection';
 import { emptyMap } from './Map';
 import { sortFactory } from './Operations';
 import { OrderedSet } from './OrderedSet';
-import { DELETE } from './TrieUtils';
+import { DELETE } from './TrieUtils.ts';
 import { asImmutable } from './methods/asImmutable';
 import { asMutable } from './methods/asMutable';
 import { withMutations } from './methods/withMutations';
-import { isOrdered } from './predicates/isOrdered';
-import { IS_SET_SYMBOL, isSet } from './predicates/isSet';
-import assertNotInfinite from './utils/assertNotInfinite';
+import { isOrdered } from './predicates/isOrdered.ts';
+import { IS_SET_SYMBOL, isSet } from './predicates/isSet.ts';
+import assertNotInfinite from './utils/assertNotInfinite.ts';
 
 export class Set extends SetCollection {
   // @pragma Construction

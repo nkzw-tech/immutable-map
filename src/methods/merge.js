@@ -1,7 +1,7 @@
 import { KeyedCollection } from '../Collection';
-import { NOT_SET } from '../TrieUtils';
-import { update } from '../functional/update';
-import { isRecord } from '../predicates/isRecord';
+import { NOT_SET } from '../TrieUtils.ts';
+import { update } from '../functional/update.ts';
+import { isRecord } from '../predicates/isRecord.ts';
 
 export function merge(...iters) {
   return mergeIntoKeyedWith(this, iters);

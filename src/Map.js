@@ -1,8 +1,6 @@
 import { Collection, KeyedCollection } from './Collection';
-import { hash } from './Hash';
-import { Iterator, iteratorDone, iteratorValue } from './Iterator';
-import { sortFactory } from './Operations';
-import { OrderedMap } from './OrderedMap';
+import { hash } from './Hash.ts';
+import { Iterator, iteratorDone, iteratorValue } from './Iterator.ts';
 import {
   DELETE,
   MASK,
@@ -12,8 +10,8 @@ import {
   SHIFT,
   SIZE,
   SetRef,
-} from './TrieUtils';
-import { is } from './is';
+} from './TrieUtils.ts';
+import { is } from './is.ts';
 import { asImmutable } from './methods/asImmutable';
 import { asMutable } from './methods/asMutable';
 import { deleteIn } from './methods/deleteIn';
@@ -26,10 +24,9 @@ import { update } from './methods/update';
 import { updateIn } from './methods/updateIn';
 import { wasAltered } from './methods/wasAltered';
 import { withMutations } from './methods/withMutations';
-import { IS_MAP_SYMBOL, isMap } from './predicates/isMap';
-import { isOrdered } from './predicates/isOrdered';
-import arrCopy from './utils/arrCopy';
-import assertNotInfinite from './utils/assertNotInfinite';
+import { IS_MAP_SYMBOL, isMap } from './predicates/isMap.ts';
+import arrCopy from './utils/arrCopy.ts';
+import assertNotInfinite from './utils/assertNotInfinite.ts';
 
 export class Map extends KeyedCollection {
   // @pragma Construction
@@ -38,7 +35,7 @@ export class Map extends KeyedCollection {
     // eslint-disable-next-line no-constructor-return
     return value === undefined || value === null
       ? emptyMap()
-      : isMap(value) && !isOrdered(value)
+      : isMap(value)
         ? value
         : emptyMap().withMutations((map) => {
             const iter = KeyedCollection(value);
@@ -96,16 +93,6 @@ export class Map extends KeyedCollection {
   }
 
   // @pragma Composition
-
-  sort(comparator) {
-    // Late binding
-    return OrderedMap(sortFactory(this, comparator));
-  }
-
-  sortBy(mapper, comparator) {
-    // Late binding
-    return OrderedMap(sortFactory(this, comparator, mapper));
-  }
 
   map(mapper, context) {
     return this.withMutations((map) => {

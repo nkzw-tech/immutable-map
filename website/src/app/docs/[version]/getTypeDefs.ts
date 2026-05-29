@@ -873,9 +873,9 @@ function setIn(obj: any, path: ReadonlyArray<string | number>, value: any) {
 function shouldIgnore(comment: TypeDoc | undefined) {
   return Boolean(
     comment &&
-      comment.notes &&
-      comment.notes.find(
-        (note) => note.name === 'ignore' || note.name === 'deprecated'
-      )
+    comment.notes &&
+    comment.notes.find(
+      (note) => note.name === 'ignore' || note.name === 'deprecated'
+    )
   );
 }

@@ -9,11 +9,23 @@ import copyright from './copyright.mjs';
 
 const SRC_DIR = path.resolve('src');
 const DIST_DIR = path.resolve('dist');
+const TSCONFIG = path.resolve('tsconfig.src.json');
 
 export default [
   {
     input: path.join(SRC_DIR, 'Immutable.js'),
-    plugins: [commonjs(), json(), typescript(), buble()],
+    plugins: [
+      commonjs(),
+      json(),
+      typescript({
+        tsconfig: TSCONFIG,
+        compilerOptions: {
+          noEmit: false,
+          outDir: DIST_DIR,
+        },
+      }),
+      buble(),
+    ],
     output: [
       // umd build
       {

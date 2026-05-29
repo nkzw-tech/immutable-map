@@ -11,15 +11,14 @@ import {
   neg,
   not,
   reduce,
-} from './CollectionHelperMethods';
+} from './CollectionHelperMethods.ts';
 import {
   ITERATE_ENTRIES,
   ITERATE_KEYS,
   ITERATE_VALUES,
   Iterator,
   ITERATOR_SYMBOL,
-} from './Iterator';
-import { List } from './List';
+} from './Iterator.ts';
 import { Map } from './Map';
 import {
   FromEntriesSequence,
@@ -45,34 +44,30 @@ import {
   takeWhileFactory,
   zipWithFactory,
 } from './Operations';
-import { OrderedMap } from './OrderedMap';
-import { OrderedSet } from './OrderedSet';
 import { Range } from './Range';
 import { ArraySeq, IndexedSeq, KeyedSeq, SetSeq } from './Seq';
-import { Set } from './Set';
-import { Stack } from './Stack';
 import {
   NOT_SET,
   ensureSize,
   resolveBegin,
   returnTrue,
   wrapIndex,
-} from './TrieUtils';
-import { is } from './is';
+} from './TrieUtils.ts';
+import { is } from './is.ts';
 import { getIn } from './methods/getIn';
 import { hasIn } from './methods/hasIn';
 import { toObject } from './methods/toObject';
-import { IS_COLLECTION_SYMBOL } from './predicates/isCollection';
-import { isIndexed, IS_INDEXED_SYMBOL } from './predicates/isIndexed';
-import { isKeyed, IS_KEYED_SYMBOL } from './predicates/isKeyed';
-import { IS_ORDERED_SYMBOL } from './predicates/isOrdered';
-import { toJS } from './toJS';
-import arrCopy from './utils/arrCopy';
-import assertNotInfinite from './utils/assertNotInfinite';
-import deepEqual from './utils/deepEqual';
-import { hashCollection } from './utils/hasCollection';
-import mixin from './utils/mixin';
-import quoteString from './utils/quoteString';
+import { IS_COLLECTION_SYMBOL } from './predicates/isCollection.ts';
+import { isIndexed, IS_INDEXED_SYMBOL } from './predicates/isIndexed.ts';
+import { isKeyed, IS_KEYED_SYMBOL } from './predicates/isKeyed.ts';
+import { IS_ORDERED_SYMBOL } from './predicates/isOrdered.ts';
+import { toJS } from './toJS.ts';
+import arrCopy from './utils/arrCopy.ts';
+import assertNotInfinite from './utils/assertNotInfinite.ts';
+import deepEqual from './utils/deepEqual.ts';
+import { hashCollection } from './utils/hasCollection.ts';
+import mixin from './utils/mixin.ts';
+import quoteString from './utils/quoteString.ts';
 
 export { Collection, CollectionPrototype, IndexedCollectionPrototype };
 
@@ -112,21 +107,6 @@ mixin(Collection, {
 
   toObject: toObject,
 
-  toOrderedMap() {
-    // Use Late Binding here to solve the circular dependency.
-    return OrderedMap(this.toKeyedSeq());
-  },
-
-  toOrderedSet() {
-    // Use Late Binding here to solve the circular dependency.
-    return OrderedSet(isKeyed(this) ? this.valueSeq() : this);
-  },
-
-  toSet() {
-    // Use Late Binding here to solve the circular dependency.
-    return Set(isKeyed(this) ? this.valueSeq() : this);
-  },
-
   toSetSeq() {
     return new ToSetSequence(this);
   },
@@ -137,16 +117,6 @@ mixin(Collection, {
       : isKeyed(this)
         ? this.toKeyedSeq()
         : this.toSetSeq();
-  },
-
-  toStack() {
-    // Use Late Binding here to solve the circular dependency.
-    return Stack(isKeyed(this) ? this.valueSeq() : this);
-  },
-
-  toList() {
-    // Use Late Binding here to solve the circular dependency.
-    return List(isKeyed(this) ? this.valueSeq() : this);
   },
 
   // ### Common JavaScript methods and properties

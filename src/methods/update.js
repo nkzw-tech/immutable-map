@@ -1,4 +1,4 @@
-import { update as _update } from '../functional/update';
+import { update as _update } from '../functional/update.ts';
 
 export function update(key, notSetValue, updater) {
   return arguments.length === 1

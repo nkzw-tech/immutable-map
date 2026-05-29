@@ -1,9 +1,14 @@
-import { Iterator, iteratorDone, iteratorValue } from './Iterator';
+import { Iterator, iteratorDone, iteratorValue } from './Iterator.ts';
 import { IndexedSeq } from './Seq';
-import { resolveBegin, resolveEnd, wholeSlice, wrapIndex } from './TrieUtils';
+import {
+  resolveBegin,
+  resolveEnd,
+  wholeSlice,
+  wrapIndex,
+} from './TrieUtils.ts';
 
-import deepEqual from './utils/deepEqual';
-import invariant from './utils/invariant';
+import deepEqual from './utils/deepEqual.ts';
+import invariant from './utils/invariant.ts';
 
 /**
  * Returns a lazy seq of nums from start (inclusive) to end

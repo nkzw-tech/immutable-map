@@ -1,10 +1,10 @@
 import { KeyedCollection } from './Collection';
 import { emptyList } from './List';
 import { Map, emptyMap } from './Map';
-import { DELETE, NOT_SET, SIZE } from './TrieUtils';
-import { IS_ORDERED_SYMBOL } from './predicates/isOrdered';
-import { isOrderedMap } from './predicates/isOrderedMap';
-import assertNotInfinite from './utils/assertNotInfinite';
+import { DELETE, NOT_SET, SIZE } from './TrieUtils.ts';
+import { IS_ORDERED_SYMBOL } from './predicates/isOrdered.ts';
+import { isOrderedMap } from './predicates/isOrderedMap.ts';
+import assertNotInfinite from './utils/assertNotInfinite.ts';
 
 export class OrderedMap extends Map {
   // @pragma Construction

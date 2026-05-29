@@ -1,9 +1,9 @@
-import { Iterator, iteratorDone, iteratorValue } from './Iterator';
+import { Iterator, iteratorDone, iteratorValue } from './Iterator.ts';
 import { IndexedSeq } from './Seq';
-import { resolveBegin, resolveEnd, wholeSlice } from './TrieUtils';
-import { is } from './is';
+import { resolveBegin, resolveEnd, wholeSlice } from './TrieUtils.ts';
+import { is } from './is.ts';
 
-import deepEqual from './utils/deepEqual';
+import deepEqual from './utils/deepEqual.ts';
 
 /**
  * Returns a lazy Seq of `value` repeated `times` times. When `times` is
