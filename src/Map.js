@@ -1,6 +1,11 @@
 import { Collection, KeyedCollection } from './Collection';
 import { hash } from './Hash.ts';
-import { Iterator, iteratorDone, iteratorValue } from './Iterator.ts';
+import {
+  Iterator,
+  hasIterator,
+  iteratorDone,
+  iteratorValue,
+} from './Iterator.ts';
 import {
   DELETE,
   MASK,
@@ -24,9 +29,11 @@ import { update } from './methods/update';
 import { updateIn } from './methods/updateIn';
 import { wasAltered } from './methods/wasAltered';
 import { withMutations } from './methods/withMutations';
+import { isCollection } from './predicates/isCollection.ts';
 import { IS_MAP_SYMBOL, isMap } from './predicates/isMap.ts';
 import arrCopy from './utils/arrCopy.ts';
 import assertNotInfinite from './utils/assertNotInfinite.ts';
+import isArrayLike from './utils/isArrayLike.ts';
 
 export class Map extends KeyedCollection {
   // @pragma Construction
@@ -37,11 +44,15 @@ export class Map extends KeyedCollection {
       ? emptyMap()
       : isMap(value)
         ? value
-        : emptyMap().withMutations((map) => {
-            const iter = KeyedCollection(value);
-            assertNotInfinite(iter.size);
-            iter.forEach((v, k) => map.set(k, v));
-          });
+        : Array.isArray(value)
+          ? mapFromEntries(value)
+          : canBuildMapFromObject(value)
+            ? mapFromObject(value)
+            : emptyMap().withMutations((map) => {
+                const iter = KeyedCollection(value);
+                assertNotInfinite(iter.size);
+                iter.forEach((v, k) => map.set(k, v));
+              });
   }
 
   toString() {
@@ -607,6 +618,55 @@ function makeMap(size, root, ownerID, hash) {
 let EMPTY_MAP;
 export function emptyMap() {
   return EMPTY_MAP || (EMPTY_MAP = makeMap(0));
+}
+
+function canBuildMapFromObject(value) {
+  return (
+    typeof value === 'object' && !isArrayLike(value) && !hasIterator(value)
+  );
+}
+
+function mapFromObject(object) {
+  const keys = Object.keys(object).concat(
+    Object.getOwnPropertySymbols ? Object.getOwnPropertySymbols(object) : []
+  );
+  const size = keys.length;
+  if (size === 0) {
+    return emptyMap();
+  }
+
+  let map = emptyMap().__ensureOwner(new OwnerID());
+  for (let ii = 0; ii < size; ii++) {
+    const key = keys[ii];
+    updateMap(map, key, object[key]);
+  }
+  return map.__ensureOwner();
+}
+
+function mapFromEntries(entries) {
+  const size = entries.length;
+  if (size === 0) {
+    return emptyMap();
+  }
+
+  let map = emptyMap().__ensureOwner(new OwnerID());
+  for (let ii = 0; ii < size; ii++) {
+    const entry = entries[ii];
+    if (entry) {
+      validateEntry(entry);
+      const indexedCollection = isCollection(entry);
+      const key = indexedCollection ? entry.get(0) : entry[0];
+      const value = indexedCollection ? entry.get(1) : entry[1];
+      updateMap(map, key, value);
+    }
+  }
+  return map.__ensureOwner();
+}
+
+function validateEntry(entry) {
+  if (entry !== Object(entry)) {
+    throw new TypeError('Expected [K, V] tuple: ' + entry);
+  }
 }
 
 function updateMap(map, k, v) {

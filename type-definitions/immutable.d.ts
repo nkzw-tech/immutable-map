@@ -5038,6 +5038,7 @@ declare namespace Immutable {
 }
 
 declare const ImmutableMap: typeof Immutable.Map;
+type ImmutableMap<K, V> = Immutable.Map<K, V>;
 
 export default ImmutableMap;
 export type Collection<K, V> = Immutable.Collection<K, V>;

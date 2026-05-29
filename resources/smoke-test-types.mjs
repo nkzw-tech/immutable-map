@@ -41,13 +41,16 @@ const allowed = await runTypeScript(
     const a: number = map.get('a');
     const b: string = map.get('b');
     const sorted: typeof map = map.sort();
+    type DefaultMap = Map<string, number>;
     type ConcreteMap = ImmutableMap<string, number>;
     type ConcreteCollection = Collection<string, number>;
     type ObjectMap = MapOf<{ a: number }>;
+    const defaultTyped: DefaultMap = Map<string, number>();
     const typed: ObjectMap = Map({ a: 1 });
     const value: number = typed.get('a');
     void a;
     void b;
+    void defaultTyped;
     void sorted;
   `
 );
