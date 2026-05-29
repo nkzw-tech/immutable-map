@@ -76,47 +76,49 @@ describe('Map', function () {
     });
   });
 
-  describe('builds from a List', function () {
-    var list2 = Immutable.List().asMutable();
-    for (var ii = 0; ii < 2; ii++) {
-      list2 = list2.push(Immutable.List(['x' + ii, ii]));
-    }
-    list2 = list2.asImmutable();
+  if (Immutable.List) {
+    describe('builds from a List', function () {
+      var list2 = Immutable.List().asMutable();
+      for (var ii = 0; ii < 2; ii++) {
+        list2 = list2.push(Immutable.List(['x' + ii, ii]));
+      }
+      list2 = list2.asImmutable();
 
-    it('of 2', function () {
-      Immutable.Map(list2);
+      it('of 2', function () {
+        Immutable.Map(list2);
+      });
+
+      var list8 = Immutable.List().asMutable();
+      for (var ii = 0; ii < 8; ii++) {
+        list8 = list8.push(Immutable.List(['x' + ii, ii]));
+      }
+      list8 = list8.asImmutable();
+
+      it('of 8', function () {
+        Immutable.Map(list8);
+      });
+
+      var list32 = Immutable.List().asMutable();
+      for (var ii = 0; ii < 32; ii++) {
+        list32 = list32.push(Immutable.List(['x' + ii, ii]));
+      }
+      list32 = list32.asImmutable();
+
+      it('of 32', function () {
+        Immutable.Map(list32);
+      });
+
+      var list1024 = Immutable.List().asMutable();
+      for (var ii = 0; ii < 1024; ii++) {
+        list1024 = list1024.push(Immutable.List(['x' + ii, ii]));
+      }
+      list1024 = list1024.asImmutable();
+
+      it('of 1024', function () {
+        Immutable.Map(list1024);
+      });
     });
-
-    var list8 = Immutable.List().asMutable();
-    for (var ii = 0; ii < 8; ii++) {
-      list8 = list8.push(Immutable.List(['x' + ii, ii]));
-    }
-    list8 = list8.asImmutable();
-
-    it('of 8', function () {
-      Immutable.Map(list8);
-    });
-
-    var list32 = Immutable.List().asMutable();
-    for (var ii = 0; ii < 32; ii++) {
-      list32 = list32.push(Immutable.List(['x' + ii, ii]));
-    }
-    list32 = list32.asImmutable();
-
-    it('of 32', function () {
-      Immutable.Map(list32);
-    });
-
-    var list1024 = Immutable.List().asMutable();
-    for (var ii = 0; ii < 1024; ii++) {
-      list1024 = list1024.push(Immutable.List(['x' + ii, ii]));
-    }
-    list1024 = list1024.asImmutable();
-
-    it('of 1024', function () {
-      Immutable.Map(list1024);
-    });
-  });
+  }
 
   describe('merge a map', () => {
     [2, 8, 32, 1024].forEach((size) => {

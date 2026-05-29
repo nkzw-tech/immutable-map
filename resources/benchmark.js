@@ -3,6 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var vm = require('vm');
 var Benchmark = require('benchmark');
+require('colors');
 
 function promisify(fn) {
   return function () {
@@ -22,17 +23,31 @@ var readdir = promisify(fs.readdir);
 var readFile = promisify(fs.readFile);
 
 var perfDir = path.resolve(__dirname, '../perf/');
+var oldSourcePath = process.env.IMMUTABLE_BENCHMARK_OLD;
 
 Promise.all([
   readFile(path.resolve(__dirname, '../dist/immutable.js'), {
     encoding: 'utf8',
   }),
-  exec('git show main:dist/immutable.js'),
+  oldSourcePath
+    ? readFile(oldSourcePath, { encoding: 'utf8' })
+    : exec('git show main:dist/immutable.js').catch(function () {
+        console.warn(
+          'No old dist found; running benchmarks for current build.'
+        );
+        return '';
+      }),
 ])
   .then(function (args) {
     var newSrc = args[0];
-    var oldSrc = args[1].toString({ encoding: 'utf8' }).slice(0, -1); // wtf, comma?
+    var oldSrc = args[1].toString({ encoding: 'utf8' });
+    if (oldSrc.charAt(oldSrc.length - 1) === '\n') {
+      oldSrc = oldSrc.slice(0, -1); // wtf, comma?
+    }
     return newSrc === oldSrc ? [newSrc] : [newSrc, oldSrc];
+  })
+  .then(function (sources) {
+    return sources.filter(Boolean);
   })
   .then(function (sources) {
     return sources.map(function (source) {
@@ -51,6 +66,13 @@ Promise.all([
     });
   })
   .then(function (modules) {
+    modules = modules.map(function (Immutable) {
+      if (!Immutable.Map && typeof Immutable.default === 'function') {
+        return Object.assign({ Map: Immutable.default }, Immutable);
+      }
+      return Immutable;
+    });
+
     return readdir(perfDir)
       .then(function (filepaths) {
         return Promise.all(
@@ -111,17 +133,38 @@ Promise.all([
               };
             }
 
-            vm.runInNewContext(
-              source.source,
-              {
-                describe: describe,
-                it: it,
-                beforeEach: beforeEach,
-                console: console,
-                Immutable: Immutable,
-              },
-              source.path
-            );
+            if (
+              (source.path === 'List.js' && !Immutable.List) ||
+              (source.path === 'Record.js' && !Immutable.Record) ||
+              (source.path === 'toJS.js' &&
+                (!Immutable.List || !Immutable.toJS))
+            ) {
+              console.warn(
+                'Skipping unavailable benchmark fixture ' + source.path
+              );
+              return;
+            }
+
+            try {
+              vm.runInNewContext(
+                source.source,
+                {
+                  describe: describe,
+                  it: it,
+                  beforeEach: beforeEach,
+                  console: console,
+                  Immutable: Immutable,
+                },
+                source.path
+              );
+            } catch (error) {
+              console.warn(
+                'Skipping unavailable benchmark fixture ' +
+                  source.path +
+                  ': ' +
+                  error.message
+              );
+            }
           });
         });
 
