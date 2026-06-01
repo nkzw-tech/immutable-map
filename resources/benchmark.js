@@ -24,6 +24,9 @@ var readFile = promisify(fs.readFile);
 
 var perfDir = path.resolve(__dirname, '../perf/');
 var oldSourcePath = process.env.IMMUTABLE_BENCHMARK_OLD;
+var testFilter = process.env.IMMUTABLE_BENCHMARK_FILTER
+  ? new RegExp(process.env.IMMUTABLE_BENCHMARK_FILTER)
+  : null;
 
 Promise.all([
   readFile(path.resolve(__dirname, '../dist/immutable.js'), {
@@ -181,6 +184,12 @@ Promise.all([
       });
   })
   .then(function (tests) {
+    if (testFilter) {
+      tests = tests.filter(function (test) {
+        return testFilter.test(test.description);
+      });
+    }
+
     var suites = [];
 
     tests.forEach(function (test) {

@@ -1,6 +1,15 @@
 /* global Immutable */
 describe('Map', function () {
   describe('builds from an object', function () {
+    var obj1 = {};
+    for (var ii = 0; ii < 1; ii++) {
+      obj1['x' + ii] = ii;
+    }
+
+    it('of 1', function () {
+      Immutable.Map(obj1);
+    });
+
     var obj2 = {};
     for (var ii = 0; ii < 2; ii++) {
       obj2['x' + ii] = ii;
@@ -39,6 +48,15 @@ describe('Map', function () {
   });
 
   describe('builds from an array', function () {
+    var array1 = [];
+    for (var ii = 0; ii < 1; ii++) {
+      array1[ii] = ['x' + ii, ii];
+    }
+
+    it('of 1', function () {
+      Immutable.Map(array1);
+    });
+
     var array2 = [];
     for (var ii = 0; ii < 2; ii++) {
       array2[ii] = ['x' + ii, ii];
@@ -78,6 +96,16 @@ describe('Map', function () {
 
   if (Immutable.List) {
     describe('builds from a List', function () {
+      var list1 = Immutable.List().asMutable();
+      for (var ii = 0; ii < 1; ii++) {
+        list1 = list1.push(Immutable.List(['x' + ii, ii]));
+      }
+      list1 = list1.asImmutable();
+
+      it('of 1', function () {
+        Immutable.Map(list1);
+      });
+
       var list2 = Immutable.List().asMutable();
       for (var ii = 0; ii < 2; ii++) {
         list2 = list2.push(Immutable.List(['x' + ii, ii]));

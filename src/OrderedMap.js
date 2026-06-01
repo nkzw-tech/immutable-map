@@ -37,6 +37,10 @@ export class OrderedMap extends Map {
     return index !== undefined ? this._list.get(index)[1] : notSetValue;
   }
 
+  has(k) {
+    return this._map.has(k);
+  }
+
   // @pragma Modification
 
   clear() {

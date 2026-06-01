@@ -89,6 +89,29 @@ describe('OrderedMap', () => {
     expect(m.get('Z')).toBe('zebra');
   });
 
+  it('reports key presence from its internal map', () => {
+    const m = OrderedMap({
+      A: undefined,
+      Z: 'zebra',
+    });
+
+    expect(m.has('A')).toBe(true);
+    expect(m.has('Z')).toBe(true);
+    expect(m.has('missing')).toBe(false);
+  });
+
+  it('filters through the keyed collection fallback', () => {
+    const m = OrderedMap({ A: 1, B: 2, C: 3 });
+
+    expect(m.filter((value) => value % 2 === 1).toArray()).toEqual([
+      ['A', 1],
+      ['C', 3],
+    ]);
+    expect(m.filterNot((value) => value % 2 === 1).toArray()).toEqual([
+      ['B', 2],
+    ]);
+  });
+
   it('respects order for equality', () => {
     const m1 = OrderedMap().set('A', 'aardvark').set('Z', 'zebra');
     const m2 = OrderedMap().set('Z', 'zebra').set('A', 'aardvark');
